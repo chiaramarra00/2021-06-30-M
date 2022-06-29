@@ -1,7 +1,6 @@
 package it.polito.tdp.genes;
 
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 
 import it.polito.tdp.genes.model.Model;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +23,7 @@ public class EntryPoint extends Application {
         controller.setModel(model);
         
         scene.getStylesheets().add("/styles/Styles.css");
+		scene.getRoot().setStyle("-fx-font-family: 'serif'");
         
         //stage.setTitle("JavaFX and Maven");
         stage.setScene(scene);

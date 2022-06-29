@@ -5,6 +5,7 @@
 package it.polito.tdp.genes;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.genes.model.Model;
@@ -38,12 +39,40 @@ public class FXMLController {
 
     @FXML
     void doContaArchi(ActionEvent event) {
+    	double s;
+    	try {
+    		s = Integer.parseInt(txtSoglia.getText());
+    	} catch (NumberFormatException e) {
+    		txtResult.setText("Inserire un valore numerico.\n");
+    		e.printStackTrace();
+    		return;
+    	}
+    	if (s<model.getPesoMin() || s>model.getPesoMax()) {
+    		txtResult.setText("Inserire un valore compreso tra "+model.getPesoMin()+" e "+model.getPesoMax()+"\n");
+    		return;
+    	}
+    	txtResult.appendText("Soglia: "+s+" --> Maggiori "+model.getMaggiori(s)+", minori "+model.getMinori(s)+"\n");
 
     }
 
     @FXML
     void doRicerca(ActionEvent event) {
-
+    	txtResult.clear();
+    	double s;
+    	try {
+    		s = Integer.parseInt(txtSoglia.getText());
+    	} catch (NumberFormatException e) {
+    		txtResult.setText("Inserire un valore numerico.\n");
+    		e.printStackTrace();
+    		return;
+    	}
+    	if (s<model.getPesoMin() || s>model.getPesoMax()) {
+    		txtResult.setText("Inserire un valore compreso tra "+model.getPesoMin()+" e "+model.getPesoMax()+"\n");
+    		return;
+    	}
+    	List<Integer> cammino = model.cercaLista(s);
+    	for (Integer c : cammino) 
+    		txtResult.appendText(c+"\n");
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -57,6 +86,9 @@ public class FXMLController {
 
 	public void setModel(Model model) {
 		this.model = model ;
+		model.creaGrafo();
+		txtResult.setText("Grafo creato: "+model.nVertici()+" vertici, "+model.nArchi()+" archi\n");
+		txtResult.appendText("Peso minimo = "+model.getPesoMin()+", peso massimo = "+model.getPesoMax()+"\n");
 		
 	}
 }
